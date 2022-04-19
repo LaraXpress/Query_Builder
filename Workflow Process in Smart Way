@@ -1,0 +1,123 @@
+Per Module Workflow:-
+Say for Example :
+
+(Customer)
+php artisan make:migration create_users_table --create=users
+php artisan migrate
+php artisan make:model Customer
+php artisan make:controller CustomerController
+
+(Route for Customer)
+Route::group(['prefix' => 'customer'], function() {  
+    Route::get('/all_customer',          'CustomerController@index')->name('all.customer');       
+    Route::get('/create_customer',       'CustomerController@create')->name('add.customer');    
+    Route::post('/save_customer',        'CustomerController@store')->name('save.customer');    
+    Route::get('/view_customer/{id}',    'CustomerController@show')->name('show.customer');    
+    Route::get('/edit_customer/{id}',    'CustomerController@edit')->name('edit.customer');    
+    Route::post('/update_customer/{id}', 'CustomerController@update')->name('update.customer');    
+    Route::get('/delete_customer/{id}',  'CustomerController@delete')->name('delete.customer');    
+});
+
+use Illuminate\Support\Facades\DB;
+use DB;
+
+(Customer Logic Functions)
+public function index()
+public function create()
+public function store(Request $request)
+public function show($id)
+public function edit($id)
+public function update(Request $request,$id)
+public function delete($id)
+
+(Customer Routing Names)
+"{{ route('all.customer') }}"
+"{{ route('add.customer') }}"
+"{{ route('save.customer') }}"
+"{{ route('show.customer',  $customer->id) }}"
+"{{ route('edit.customer',  $customer->id) }}"
+"{{ route('update.customer',$customer->id) }}"
+"{{ route('delete.customer',$customer->id) }}"
+
+Query Builder For Customer:
+$customer = DB::table('customers')->get();
+$customer = DB::table('customers')->first();
+$customer = DB::table('customers')->insert($data);
+$customer = DB::table('customers')->where('id', $id)->first();
+$customer = DB::table('customers')->where('id', $id)->update($data);
+$customer = DB::table('customers')->where('id', $id)->delete();
+
+return view('pages.customer.index')->with('customers',$customer);
+return view('pages.customer.create');
+return view('pages.customer.edit')->with('customers', $customer);
+return view('pages.customer.view')->with('customers', $customer);
+
+$customer = DB::table('customers')->get();
+return view('pages.customer.index')->with('customers',$customer);
+
+return view('pages.customer.create');
+
+$customer = DB::table('customers')->where('id',$id)->first();
+return view('pages.customer.view')->with('customers',$customer);
+
+$customer = DB::table('customers')->where('id',$id)->first();
+return view('pages.customer.edit')->with('customers',$customer);
+
+Blade for Customer :
+views
+    - pages
+    - customer
+    - index.blade.php
+    - create.blade.php
+    - edit.blade.php
+    - view.blade.php
+
+return view('pages.customer.index')->with('customers',$customer);
+return view('pages.customer.create');
+return view('pages.customer.edit')->with('customers', $customer);
+return view('pages.customer.view')->with('customers', $customer);
+
+### APPLY for VIEW FILES ####
+
+@foreach($customers as $customer)
+    {{ $customer->id }} 
+@endforeach
+
+<img src="{{ URL::to($customer->image) }}" alt="">
+
+<table class="table table-bordered">
+    <tr>
+        <th class="text-center">ID</th>
+        <th class="text-center">Name</th>
+    </tr>
+    @foreach($customers as $customer)
+    <tr class="text-center">
+        <td> {{ $customer->id }} </td>
+        <td> {{ $customer->name }} </td>
+        <td>
+            <a href="{{ route('show.customer',  $customer->id) }}" class="btn btn-warning btn-sm">VIEW</a>
+            <a href="{{ route('edit.customer',  $customer->id) }}" class="btn btn-success btn-sm">EDIT</a>
+            <a href="{{ route('delete.customer',$customer->id) }}" class="btn btn-danger btn-sm" >DELETE</a>
+        </td>
+    </tr>
+    @endforeach
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
