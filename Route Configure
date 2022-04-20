@@ -1,0 +1,41 @@
+======================== Route Configuration ======================
+
+Route::get('/home',    'HomeController@index');
+Route::get('/about',   'HomeController@about');
+Route::get('/service', 'HomeController@service');
+Route::get('/blog',    'HomeController@blog');
+Route::get('/contact', 'HomeController@contact');
+
+<a href="{{ URL::to('/home') }}">Home</a>
+<a href="{{ URL::to('/about') }}">About</a>                                        
+<a href="{{ URL::to('/service') }}">Service</a>                                        
+<a href="{{ URL::to('/blog') }}">Blog</a>                                        
+<a href="{{ URL::to('/contact') }}">Contact</a>                                        
+
+Route::get('/home',   'HomeController@index')->name('home');
+Route::get('/about',  'HomeController@about')->name('about');
+Route::get('/service','HomeController@service')->name('service');
+Route::get('/blog',   'HomeController@blog')->name('blog');
+Route::get('/contact','HomeController@contact')->name('contact');
+
+<a href="{{ route('home') }}">Home</a>
+<a href="{{ route('about') }}">About</a>                                        
+<a href="{{ route('service') }}">Service</a>                                        
+<a href="{{ route('blog') }}">Blog</a>                                        
+<a href="{{ route('contact') }}">Contact</a>
+
+Route::group(['prefix' => 'product'], function() {  
+    Route::get('/all_product',          'ProductController@all');       
+    Route::get('/create_product',       'ProductController@create');    
+    Route::post('/save_product',        'ProductController@store');    
+    Route::get('/delete_product/{$id}', 'ProductController@delete');    
+    Route::get('/edit_product/{$id}',   'ProductController@edit');      
+    Route::post('/update_product/{$id}','ProductController@update');    
+});
+
+  // http://127.0.0.1:8000/product/all_product 
+  // http://127.0.0.1:8000/product/create_product 
+  // http://127.0.0.1:8000/product/save_product
+  // http://127.0.0.1:8000/product/delete_product/id
+  // http://127.0.0.1:8000/product/edit_product/id
+  // http://127.0.0.1:8000/product/update_product/id
